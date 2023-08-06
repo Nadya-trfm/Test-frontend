@@ -1,11 +1,12 @@
 <template>
-  <h1>Get clients view</h1>
+  <div class="container-md">
+  <GetClients/>
+  </div>
 </template>
 
-<script>
-export default {
-  name: "GetClientsView"
-}
+<script setup>
+import GetClients from "../components/GetClients.vue";
+
 </script>
 
 <style scoped>
