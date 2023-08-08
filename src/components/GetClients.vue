@@ -28,7 +28,7 @@
         <button type="button" class="btn btn-warning">✎</button>
       </th>
       <th scope="col">
-        <button type="button" class="btn btn-danger">X</button>
+        <button type="button" class="btn btn-danger" @click="deleteClient(client.id)">X</button>
       </th>
     </tr>
 
@@ -68,9 +68,14 @@ async function loadData() {
   const res = await axios.get(`http://127.0.0.1:8000/api/clients/getAllWithCars?page=${page.value}`);
   clients.value = res.data?.data;
   total.value = res.data?.total;
-
-
 }
+
+async function deleteClient(id) {
+ await axios.delete(`http://127.0.0.1:8000/api/clients/delete/${id}`).then(()=>{
+   loadData();
+ });
+}
+
 
 const numberOfPages = computed(() => {
   if (!total.value) return 1;
