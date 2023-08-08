@@ -20,15 +20,10 @@
     <tr v-for="client in clients"
         :key="client.id">
       <td>{{ client.full_name }}</td>
-      <template v-if="client.plate_number!==null">
+
       <td>{{ client.brand + ' ' + client.model + ' color:' + client.body_color }}</td>
       <td>{{ client.plate_number }}</td>
-      </template>
-      <template v-else>
 
-      <td colspan="2">Автомобили отсутвуют</td>
-
-      </template>
       <th scope="col">
         <button type="button" class="btn btn-warning">✎</button>
       </th>
@@ -50,7 +45,7 @@
     </ul>
   </nav>
   <p class="fs-5">Всего {{ total }} записей</p>
-  <button type="button" class="btn btn-success">+</button>
+  <button type="button" class="btn btn-success" @click="$router.push('/create')">+</button>
 </template>
 
 <script setup>
