@@ -16,14 +16,14 @@
 
       </label>
       <div class="form-check">
-        <input class="form-check-input" type="radio" id="man" value="0" v-model="client.is_male"
+        <input class="form-check-input" type="radio" id="man" value="0" v-model="client.is_female"
                :class="{'is-valid':isGenderSelected, 'is-invalid': isGenderSelected===false}">
         <label class="form-check-label" for="man">
           Мужской
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" id="woman" value="1" v-model="client.is_male"
+        <input class="form-check-input" type="radio" id="woman" value="1" v-model="client.is_female"
                :class="{'is-valid':isGenderSelected, 'is-invalid': isGenderSelected===false}">
         <label class="form-check-label" for="woman">
           Женский
@@ -38,9 +38,12 @@
     <div class="mb-3 col-sm-3">
       <label for="tel" class="form-label">Введите ваш номер</label>
       <input type="number" class="form-control" id="tel" v-model="client.tel"
-             :class="{'is-valid':isNumberEntered, 'is-invalid': isNumberEntered===false}">
+             :class="{'is-valid':isNumberEntered, 'is-invalid': isNumberEntered===false||errors.length!==0}">
       <div v-if="isNumberEntered===false" class="invalid-feedback" id="validationServerNumberFeedback">
         Телефон не введен
+      </div>
+      <div v-if="errors.length!==0" class="invalid-feedback" id="validationServerNumberFeedback">
+        Клиент с таким номером уже существует
       </div>
     </div>
 
@@ -65,17 +68,24 @@ const client = ref({
   address: null
 });
 const startValidation = ref(false);
+const errors =ref([]);
 
 async function createClient() {
   startValidation.value = true;
+  errors.value.length=0;
 
   if (isLongFullName.value === true && isGenderSelected.value === true && isNumberEntered.value === true) {
-    await axios.post(`http://127.0.0.1:8000/api/clients/create`, {
-      full_name: client.value.full_name,
-      is_female: client.value.is_male,
-      tel: client.value.tel,
-      address: client.value.address,
-    }).then(router.push('/'));
+    try {
+      await axios.post(`http://127.0.0.1:8000/api/clients/create`, {
+        full_name: client.value.full_name,
+        is_female: client.value.is_female,
+        tel: client.value.tel,
+        address: client.value.address,
+      }).then(router.push('/'));
+    }catch (e){
+      let error =e?.response.data;
+      errors.value.push(error);
+    }
   }
 }
 
@@ -85,7 +95,7 @@ const isLongFullName = computed(() => {
 });
 
 const isGenderSelected = computed(() => {
-  return startValidation.value ? client.value.is_male !== null : null;
+  return startValidation.value ? client.value.is_female !== null : null;
 });
 
 const isNumberEntered = computed(() => {
