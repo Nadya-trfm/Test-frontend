@@ -26,7 +26,7 @@
       <td>{{car.plate_number}}</td>
       <td>{{car.is_parked ? 'да':'нет'}}</td>
       <th scope="col">
-        <button type="button" class="btn btn-warning">✎</button>
+        <button type="button" class="btn btn-warning" @click="openFormUpdate(car.id)">✎</button>
       </th>
       <th scope="col">
         <button type="button" class="btn btn-danger" @click="deleteCar(car.id)">X</button>
@@ -37,6 +37,7 @@
   </table>
   <button type="button" class="btn btn-success m-1" @click="openFormCreate">+</button>
   <CreateCarByOwner v-if="isOpenFormCreate"/>
+  <UpdateCarByOwner v-if="isOpenFormUpdate" :car-id="selectedCar"/>
 </template>
 
 <script setup>
@@ -44,11 +45,14 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import router from "../router";
 import CreateCarByOwner from "./CreateCarByOwner.vue";
+import UpdateCarByOwner from "./UpdateCarByOwner.vue";
 
 const cars = ref([]);
 const total = ref(null);
 const ownerId =ref(router.currentRoute.value.params.id);
 const isOpenFormCreate =ref(false);
+const isOpenFormUpdate =ref(false);
+const selectedCar =ref(null);
 
 onMounted(async () => {
   await loadCarsByOwner();
@@ -72,6 +76,11 @@ async function deleteCar(id) {
 }
 function openFormCreate() {
   isOpenFormCreate.value = !isOpenFormCreate.value;
+}
+
+function openFormUpdate(id) {
+  selectedCar.value = id;
+  isOpenFormUpdate.value = !isOpenFormUpdate.value;
 }
 </script>
 
