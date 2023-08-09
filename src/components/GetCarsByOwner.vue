@@ -29,7 +29,7 @@
         <button type="button" class="btn btn-warning">✎</button>
       </th>
       <th scope="col">
-        <button type="button" class="btn btn-danger">X</button>
+        <button type="button" class="btn btn-danger" @click="deleteCar(car.id)">X</button>
       </th>
     </tr>
 
@@ -61,6 +61,13 @@ async function loadCarsByOwner() {
     }
   })
 }
+
+async function deleteCar(id) {
+  await axios.delete(`http://127.0.0.1:8000/api/cars/delete/${id}`).then(()=>{
+    loadCarsByOwner();
+  });
+}
+
 </script>
 
 <style scoped>
