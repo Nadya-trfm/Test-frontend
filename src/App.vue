@@ -1,6 +1,6 @@
 <script setup>
 import {RouterLink, RouterView} from 'vue-router'
-
+import "../bootstrap-5.3.1-dist/css/bootstrap.min.css";
 
 </script>
 

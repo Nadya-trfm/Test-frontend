@@ -25,7 +25,7 @@
       <td>{{ client.plate_number }}</td>
 
       <th scope="col">
-        <button type="button" class="btn btn-warning">✎</button>
+        <RouterLink :to="{path:'/update/'+client.id}"  type="button" class="btn btn-warning" >✎</RouterLink>
       </th>
       <th scope="col">
         <button type="button" class="btn btn-danger" @click="deleteClient(client.id)">X</button>
