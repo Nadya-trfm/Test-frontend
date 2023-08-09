@@ -14,6 +14,9 @@ import "../bootstrap-5.3.1-dist/css/bootstrap.min.css";
             <li class="nav-item">
               <RouterLink to="/"  class="nav-link active" >Список клиентов</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink to="/carsParked"  class="nav-link active" >Машины на парковке</RouterLink>
+            </li>
           </ul>
         </div>
       </div>
