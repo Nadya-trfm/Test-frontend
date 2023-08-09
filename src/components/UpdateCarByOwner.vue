@@ -5,7 +5,6 @@
       {{ errors }}
 
     </div>
-  {{props}}
     <div class="mb-3 col-sm-7">
       <label for="brand" class="form-label">Введите марку машины</label>
       <input type="text" class="form-control"
@@ -72,7 +71,7 @@ const car = ref({
 });
 const startValidation = ref(false);
 const errors = ref([]);
-// const ownerId = ref(router.currentRoute.value.params.id);
+const ownerId = ref(router.currentRoute.value.params.id);
 const props= defineProps({
   'carId':{
     type: Number,
@@ -103,14 +102,17 @@ async function updateCar() {
   startValidation.value = true;
   errors.value.length = 0;
 
-  if (isLongFullName.value === true && isGenderSelected.value === true && isNumberEntered.value === true) {
+  if (isBrandEntered.value === true && isModelEntered.value === true
+      && isColorEntered.value === true && isPlateNumberEntered.value === true) {
     try {
-      await axios.put(`http://127.0.0.1:8000/api/clients/update/${clientId.value}`, {
-        full_name: client.value.full_name,
-        is_female: client.value.is_female,
-        tel: client.value.tel,
-        address: client.value.address,
-      }).then(router.replace('/'));
+      await axios.put(`http://127.0.0.1:8000/api/cars/update/${props.carId}`, {
+        brand: car.value.brand,
+        model: car.value.model,
+        body_color: car.value.body_color,
+        plate_number: car.value.plate_number,
+        is_parked: car.value.is_parked,
+        owner_id: ownerId.value
+      });
     } catch (e) {
       let error = e?.response.data;
       errors.value.push(error);
