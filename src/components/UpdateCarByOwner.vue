@@ -81,12 +81,10 @@ const props= defineProps({
 
 
 watch(() => props.carId,async () => {
-  console.log('watch');
  await loadCar();
 },{immediate:true});
 
 async function loadCar() {
-  console.log('loadcar');
   await axios.get(`http://127.0.0.1:8000/api/cars/update/${props.carId}`)
       .then(res => {
         car.value = res.data[0];
