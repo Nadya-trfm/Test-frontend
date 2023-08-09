@@ -68,11 +68,11 @@ const client = ref({
   address: null
 });
 const startValidation = ref(false);
-const errors =ref([]);
+const errors = ref([]);
 
 async function createClient() {
   startValidation.value = true;
-  errors.value.length=0;
+  errors.value.length = 0;
 
   if (isLongFullName.value === true && isGenderSelected.value === true && isNumberEntered.value === true) {
     try {
@@ -81,9 +81,12 @@ async function createClient() {
         is_female: client.value.is_female,
         tel: client.value.tel,
         address: client.value.address,
-      }).then(router.push('/'));
-    }catch (e){
-      let error =e?.response.data;
+      }).then(res => {
+        console.log(res);
+        router.push({name: 'CreateClientWithCar', params: {id: res.data[0].id}})
+      });
+    } catch (e) {
+      let error = e?.response.data;
       errors.value.push(error);
     }
   }
