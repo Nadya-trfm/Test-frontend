@@ -35,17 +35,20 @@
 
     </tbody>
   </table>
-  <button type="button" class="btn btn-success m-1" >+</button>
+  <button type="button" class="btn btn-success m-1" @click="openFormCreate">+</button>
+  <CreateCarByOwner v-if="isOpenFormCreate"/>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import router from "../router";
+import CreateCarByOwner from "./CreateCarByOwner.vue";
 
 const cars = ref([]);
 const total = ref(null);
 const ownerId =ref(router.currentRoute.value.params.id);
+const isOpenFormCreate =ref(false);
 
 onMounted(async () => {
   await loadCarsByOwner();
@@ -67,7 +70,9 @@ async function deleteCar(id) {
     loadCarsByOwner();
   });
 }
-
+function openFormCreate() {
+  isOpenFormCreate.value = !isOpenFormCreate.value;
+}
 </script>
 
 <style scoped>
